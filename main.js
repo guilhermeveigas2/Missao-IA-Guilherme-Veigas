@@ -1,10 +1,8 @@
-
-const caixaPrincipal = document.querySelector(".caixa-pricipal");
+const caixaPrincipal = document.querySelector(".caixa-principal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
-const caixaAlternativa = document.querySelector(".caixa-alternativa");
-const caixaResultado = document.querySelector(".caixa-resultado");
+const caixaAlternativas = document.querySelector(".caixa-alternativa");
+const CaixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
-
 
 const perguntas = [
     {
@@ -71,53 +69,34 @@ const perguntas = [
                 afirmacao: " jogos com estilo artístico costumam fugir do padrão visual realista, apostando em cores vibrantes, traços únicos e atmosferas que estimulam a imaginação. Eles oferecem experiências visuais marcantes, muitas vezes parecidas com obras de arte interativas, e podem transmitir emoções e mensagens de forma mais subjetiva. Para quem valoriza esse estilo, jogar é também uma forma de apreciar estética, originalidade e expressão criativa. ",
             }
         ]
-    }
-
-
-
-
+    },
 ];
 
-let atual = 0;
-let perguntaAtual;
-let historiaFinal = " ";
+let perguntaAtual = 0;
+let respostas = [];
+const alternativa1 = document.getElementById("alternativa1");
+const alternativa2 = document.getElementById("alternativa2");
 
-function mostraPergunta() {
-
-    if (atual >= perguntas.length) {
-        mostraResultado();
-        return;
+function executaQuestao() {
+    rodada = perguntas[perguntaAtual];
+    if (!rodada) {
+        caixaPerguntas.textContent = "";
+        CaixaResultado.textContent = respostas.join(", ");
+        alternativa1.style.display = "none";
+        alternativa2.style.display = "none";
+    }else{
+        caixaPerguntas.textContent = rodada.enunciado;
+        alternativa1.textContent = rodada.alternativas[0].texto
+        alternativa1.onclick = function () {
+            respostas.push(rodada.alternativas[0].afirmacao);
+            perguntaAtual++;
+            executaQuestao();
+        }
+        alternativa2.textContent = rodada.alternativas[1].texto
+        alternativa2.onclick = function () {
+            respostas.push(rodada.alternativas[1].afirmacao);
+            perguntaAtual++;
+            executaQuestao();
+        }
     }
-
-    perguntaAtual = perguntas[atual];
-    caixaPerguntas.textContent = perguntaAtual.enunciado;
-    caixaAlternativas.textContent = " ";
-    mostraAlternativas();
 }
-
-function mostraAlternativas() {
-    for (const alternativa of perguntaAtual.alternativas) {
-        const botaoAlternativas = document.createElement("button");
-        botaoAlternativas.textContent = alternativa.texto;
-        botaoAlternativas.addEventListener("click", function () {
-            atual++
-            mostraPergunta();
-        })
-        caixaAlternativa.appendChild(botaoAlternativas);
-    }
-}
-
-function respondeSelecionada(opcaoSelecionada) {
-    const afirmacoes = opcaoSelecionada.afirmacao;
-    historiaFinal += afirmacoes = " ";
-    atual++
-    mostraPergunta();
-}
-
-function mostraResultado() {
-    caixaPerguntas.textContent = " Se fosse possível ..."
-    textoResultado.textContent = historiaFinal;
-    caixaAlternativa.textContent = " ";
-}
-
-mostraPergunta();
