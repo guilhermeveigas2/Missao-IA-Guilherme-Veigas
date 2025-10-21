@@ -95,6 +95,7 @@ function mostraAlternativas(){
             atual++
             mostraPergunta();
         })
+        caixaAlternativa.appendChild(botaoAlternativas);
     }
 }
 
