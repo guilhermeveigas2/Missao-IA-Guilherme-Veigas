@@ -1,4 +1,3 @@
-const { createElement } = require("react");
 
 const caixaPrincipal = document.querySelector(".caixa-pricipal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
@@ -72,7 +71,8 @@ const perguntas = [
                 afirmacao: " jogos com estilo artístico costumam fugir do padrão visual realista, apostando em cores vibrantes, traços únicos e atmosferas que estimulam a imaginação. Eles oferecem experiências visuais marcantes, muitas vezes parecidas com obras de arte interativas, e podem transmitir emoções e mensagens de forma mais subjetiva. Para quem valoriza esse estilo, jogar é também uma forma de apreciar estética, originalidade e expressão criativa. ",
             }
         ]
-    },
+    }
+
 
 
 
@@ -80,10 +80,18 @@ const perguntas = [
 
 let atual = 0;
 let perguntaAtual;
+let historiaFinal = " ";
 
 function mostraPergunta(){
-    perguntaAtual = perguntas[atual]
+
+if (atual >= perguntas.length){
+    mostraResultado();
+    return;
+}
+
+    perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.textContent = " ";
     mostraAlternativas();
 }
 
@@ -97,6 +105,19 @@ function mostraAlternativas(){
         })
         caixaAlternativa.appendChild(botaoAlternativas);
     }
+}
+
+function respondeSelecionada(opcaoSelecionada){
+    const afirmacoes = opcaoSelecionada.afirmacao;
+    historiaFinal += afirmacoes = " ";
+    atual++
+    mostraPergunta();    
+}
+
+function mostraResultado(){
+    caixaPerguntas.textContent = " Se fosse possível ..." 
+   textoResultado.textContent = historiaFinal;
+caixaAlternativa.textContent = " ";
 }
 
 mostraPergunta ();
