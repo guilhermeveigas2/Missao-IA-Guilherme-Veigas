@@ -1,9 +1,12 @@
-
-const caixaPrincipal = document.querySelector(".caixa-pricipal");
+const caixapPrincipal = document.querySelector(".caixa-principal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
-const caixaAlternativa = document.querySelector(".caixa-alternativa");
+const caixaAlternativas = document.querySelector(".caixa-alternativas");
 const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
+
+
+
+
 
 
 const perguntas = [
@@ -78,13 +81,14 @@ const perguntas = [
 
 ];
 
+
 let atual = 0;
 let perguntaAtual;
 let historiaFinal = " ";
 
-function mostraPergunta() {
+function mostraPerguntas(){
 
-    if (atual >= perguntas.length) {
+    if(atual >= perguntas.length){
         mostraResultado();
         return;
     }
@@ -95,29 +99,28 @@ function mostraPergunta() {
     mostraAlternativas();
 }
 
-function mostraAlternativas() {
-    for (const alternativa of perguntaAtual.alternativas) {
+function mostraAlternativas(){
+    for (const alternativa of perguntaAtual.alternativas){
         const botaoAlternativas = document.createElement("button");
         botaoAlternativas.textContent = alternativa.texto;
-        botaoAlternativas.addEventListener("click", function () {
-            atual++
-            mostraPergunta();
-        })
-        caixaAlternativa.appendChild(botaoAlternativas);
+        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
+        caixaAlternativas.appendChild(botaoAlternativas);
     }
 }
 
-function respondeSelecionada(opcaoSelecionada) {
+
+function respostaSelecionada(opcaoSelecionada){
     const afirmacoes = opcaoSelecionada.afirmacao;
-    historiaFinal += afirmacoes = " ";
-    atual++
-    mostraPergunta();
+    historiaFinal += afirmacoes + " ";
+    atual++;
+    mostraPerguntas();
 }
 
-function mostraResultado() {
-    caixaPerguntas.textContent = " Se fosse possível ..."
+function mostraResultado(){
+    caixaPerguntas.textContent = "Se fosse possível ...";
     textoResultado.textContent = historiaFinal;
-    caixaAlternativa.textContent = " ";
+    caixaAlternativas.textContent = " ";
 }
 
-mostraPergunta();
+mostraPerguntas();
+
